@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;400&display=swap');
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'League Spartan', sans-serif;
+}
+
+.wrapper {
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(231deg, rgba(22, 6, 40, 1) 0%, rgba(52, 28, 79, 1) 50%, rgba(88, 7, 125, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner-wrapper h1 {
+    color: white;
+    opacity: 75%;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+.display-password-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 460px;
+    background-color: #160628;
+    padding: 25px 20px;
+    border-radius: 15px;
+    border-bottom: 5px solid #871c9c;
+    margin-top: 20px;
+}
+
+.display-password {
+    color: #ffe53d;
+    opacity: 60%;
+    font-size: 23px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    user-select: none;
+}
+
+.display-password-container img {
+    width: 26px;
+    cursor: pointer;
+}
+
+.password-setter-container {
+    width: 460px;
+    background-color: #160628;
+    padding: 30px 25px;
+    border-radius: 15px;
+    border-bottom: 5px solid #871c9c;
+    margin-top: 20px;
+}
+
+.password-length-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.password-length-container>div:nth-child(1) {
+    font-size: 25px;
+}
+
+.password-length-container>div:nth-child(2) {
+    font-size: 25px;
+    color: #ffe53d;
+    font-weight: bold;
+}
+
+input[type=range] {
+    appearance: none;
+    width: 100%;
+    height: 13px;
+    background: #341c4f;
+    outline: none;
+    border-radius: 15px;
+    margin-top: 35px;
+    background-image: linear-gradient(#bc15f4, #bc15f4);
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
+
+
+input[type=range]:focus{
+    /* border: 3px solid #ffe53d; */
+    outline:3px solid #ffe53d;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    appearance: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #ffe53d;
+    cursor: pointer;
+    margin-left: 5px;
+    box-shadow: 0 0 15px #ffe53db0;
+    position: relative;
+    z-index: 2;
+    transition: background .2s ease-in-out;
+}
+
+input[type=range]::-moz-range-thumb {
+    appearance: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #ffe53d;
+    cursor: pointer;
+    margin-left: 5px;
+    box-shadow: 0 0 15px #ffe53db0;
+    position: relative;
+    z-index: 2;
+    transition: background .2s ease-in-out;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    background: #101010;
+    border: 2px solid #ffe53d;
+    box-shadow: 0 0 24px #ffe53d;
+}
+
+
+input[type=range]::-moz-range-thumb:hover {
+    background: #101010;
+    border: 2px solid #ffe53d;
+    box-shadow: 0 0 24px #ffe53d;
+}
+
+
+.password-type-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 35px;
+}
+
+.password-type-container > div:nth-child(n){
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 15px;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+input[type=checkbox]{
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid aqua;
+    position: relative;
+    cursor: pointer;
+}
+
+input[type=checkbox]:checked {
+	background-color: aqua;
+}
+
+input[type=checkbox]:checked:after {
+	content: '\2714';
+	font-size: 17px;
+    font-weight: 600;
+	position: absolute;
+	top: -4px;
+	left: 2px;
+    color: #160628;
+}
+
+
+.password-strength-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 35px;
+}
+
+.password-strength-container > div:nth-child(1){
+    font-size: 25px;
+    color: white;
+}
+
+.password-strength-container > div:nth-child(2){
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px white;
+    background-color: white;
+}
+
+.generate-btn{
+    width: 100%;
+    background-color: #bc15f4;
+    text-align: center;
+    padding: 16px 0;
+    border-radius: 10px;
+    margin-top: 35px;
+    color: #ffe53d;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    border-bottom:5px solid #ffe53d ;
+    cursor: pointer;
+}
