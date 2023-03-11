@@ -1,7 +1,7 @@
-let input = document.getElementById("passwordLength");
-let displayPasswordLength = document.getElementById("display-password-length");
-let checkBox = document.querySelectorAll("input[type=checkbox]");
-let generatePassword = document.querySelector(".generate-btn");
+const input = document.getElementById("passwordLength");
+const displayPasswordLength = document.getElementById("display-password-length");
+const checkBox = document.querySelectorAll("input[type=checkbox]");
+const generatePassword = document.querySelector(".generate-btn");
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -42,7 +42,7 @@ generatePassword.addEventListener('click',()=>{
 
     let count = 1;
     let password = "";
-    // let no = parseInt(input.value);
+    let no = parseInt(input.value);
     let checkedBoxes = 0;
     for(let box of checkBox){
         if(box.checked)
@@ -64,46 +64,47 @@ generatePassword.addEventListener('click',()=>{
         }
     })
 
-    // for uppercase means when uppercase is checked
-    if(checkBox[0].checked){
-        let no = parseInt(input.value);
+
+    const generatingPassword = (values)=>{
         if(count == checkedBoxes){
-            no = no - password.length;
-            let temp = no
-            while(temp--){
-                password += upperCase();
+            let maxCharsToAdd = no - password.length;
+            while(maxCharsToAdd--){
+                password += values();
             }
         }
         else{
-            no = no - password.length;
-            let temp = getRndInteger(1,no);
-            while(temp--){
-                password += upperCase();
+            let maxCharsToAdd = no - password.length;
+            maxCharsToAdd = getRndInteger(1,maxCharsToAdd);
+
+
+
+            while(maxCharsToAdd--){
+                password += values();
             }
         }
-
         count++;
     }
 
-    // for lowercase means when uppercase is checked
-    if(checkBox[1].checked){
-        let no = parseInt(input.value);
-        if(count == checkedBoxes){
-            no = no - password.length;
-            let temp = no
-            while(temp--){
-                password += lowerCase();
-            }
-        }
-        else{
-            no = no - password.length;
-            let temp = getRndInteger(1,no);
-            while(temp--){
-                password += lowerCase();
-            }
-        }
-        count++;
+    //when uppercase is checked
+    if(checkBox[0].checked && password.length!=no){
+        generatingPassword(upperCase)
+    }
+
+    //when lowercase is checked
+    if(checkBox[1].checked && password.length!=no){
+        generatingPassword(lowerCase)
+    }
+
+    //when numbers is checked
+    if(checkBox[2].checked && password.length!=no){
+        generatingPassword(numbers)
+    }
+
+    //when symbols is checked
+    if(checkBox[3].checked && password.length!=no){
+        generatingPassword(symbols)
     }
     console.log("password generated",password);
     console.log(count,checkedBoxes)
 })
+
