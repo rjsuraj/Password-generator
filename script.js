@@ -5,6 +5,9 @@ const checkBox = document.querySelectorAll("input[type=checkbox]");
 const generatePasswordBtn = document.querySelector(".generate-btn");
 
 
+
+
+
 // A function that generates a random integer between a minimum and maximum value (inclusive)
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -35,6 +38,16 @@ function symbols() {
     return symbol[index];
 }
 
+function shufflePassword(password) {
+    
+    array = [...password];
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array.join("");
+}
+
 
 // Event listener for the input element that changes the password length
 passwordLengthInput.addEventListener("input", (event) => {
@@ -44,35 +57,27 @@ passwordLengthInput.addEventListener("input", (event) => {
     passwordLengthInput.style.backgroundSize = (event.target.value / 20) * 100 + '%';
 })
 
-
-
-let count = 1;
-let password = "";
-let no = parseInt(passwordLengthInput.value);
-let checkedBoxes = 0;
-
-// loop through each checkbox and count the number of checked checkboxes
 for (let box of checkBox) {
-    if (box.checked)
-        checkedBoxes++;
+
+    box.addEventListener("change", () => {
+        let no = parseInt(passwordLengthInput.value);
+        let checkedBoxes = 0;
+
+        // loop through each checkbox and count the number of checked checkboxes
+        for (let box of checkBox) {
+            if (box.checked)
+                checkedBoxes++;
+        }
+
+        if (no <= checkedBoxes) {
+            no = checkedBoxes;
+            displayPasswordLength.innerHTML = checkedBoxes;
+            passwordLengthInput.value = checkedBoxes;
+            // Update the background size of the input element based on the password length
+            passwordLengthInput.style.backgroundSize = (checkedBoxes / 20) * 100 + '%';
+        }
+    })
 }
-
-// checkBox[1].addEventListener('click', () => {
-//     displayPasswordLength.innerHTML = checkedBoxes + 1;
-//     passwordLengthInput.style.backgroundSize = (displayPasswordLength.innerHTML / 20) * 100 + '%';
-// })
-
-// for (let i = 0; i < checkBox.length; i++) {
-//     if (no <= checkedBoxes) {
-//         checkBox[i].addEventListener('click', () => {
-
-//             // Event listener for the input element that changes the password length
-//             displayPasswordLength.innerHTML = `${checkedBoxes+1}`;
-//             passwordLengthInput.style.backgroundSize = (checkedBoxes + 1 / 20) *100 + '%';
-//         })
-//     }
-// }
-
 
 
 // event listener to generate a password when the user clicks the button
@@ -89,10 +94,19 @@ generatePasswordBtn.addEventListener('click', () => {
             checkedBoxes++;
     }
 
+    if (checkedBoxes == 0)
+        return;
 
+    if (no <= checkedBoxes) {
+        no = checkedBoxes;
+        displayPasswordLength.innerHTML = checkedBoxes;
+        passwordLengthInput.value = checkedBoxes;
+        // Update the background size of the input element based on the password length
+        passwordLengthInput.style.backgroundSize = (checkedBoxes / 20) * 100 + '%';
+    }
 
     // loop through each checkbox again and add a character of the corresponding type to the password if the checkbox is checked
-    checkBox.forEach((value, index) => {
+    checkBox.forEach((value,index) => {
         if (value.checked && index == 0) {
             password += upperCase();
         }
@@ -151,6 +165,9 @@ generatePasswordBtn.addEventListener('click', () => {
     if (checkBox[3].checked && password.length != no) {
         generatingPassword(symbols)
     }
+
+    //shuffling password
+    password = shufflePassword(password);
 
     // display passoword on ui and some changes in design also
     displayPassword.innerHTML = `${password}`;
