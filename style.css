@@ -48,9 +48,31 @@ body {
     user-select: none;
 }
 
+.copy-container{
+    position: relative;
+}
+
+.copied-password{
+    position: absolute;
+    top: -136%;
+    left: -128%;
+    padding: 8px 15px;
+    border-radius: 100px;
+    color: #ffe53d;
+    font-size: 21px;
+    background-color: #871c9c;
+    scale: 0;
+    transform-origin: bottom;
+    transition: all 0.5s;
+}
+
 .display-password-container img {
     width: 26px;
     cursor: pointer;
+}
+
+.active{
+    scale: 1;
 }
 
 .password-setter-container {

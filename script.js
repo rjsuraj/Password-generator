@@ -3,9 +3,10 @@ const displayPasswordLength = document.getElementById("display-password-length")
 const displayPassword = document.querySelector(".display-password");
 const checkBox = document.querySelectorAll("input[type=checkbox]");
 const generatePasswordBtn = document.querySelector(".generate-btn");
-
-
-
+const copyIcon = document.querySelector("[copy-icon]");
+const copiedPassword = document.querySelector(".copied-password");
+const strengthColor = document.querySelector("[strength-color]");
+let password = "";
 
 
 // A function that generates a random integer between a minimum and maximum value (inclusive)
@@ -38,8 +39,40 @@ function symbols() {
     return symbol[index];
 }
 
-function shufflePassword(password) {
+function changeStrengthColor(color){
+    strengthColor.style.cssText += `box-shadow: 0 0 15px ${color};
+                                   background-color: ${color};`
+}
+
+function calcStrength(){
+    let isLower = false;
+    let isUpper = false;
+    let isSymbol = false;
+    let isNumber = false;
     
+    checkBox.forEach((box,index)=>{
+        if(box.checked){
+            if(index == 0)
+                isUpper = true;
+            else if(index == 1)
+                isLower = true;
+            else if (index == 2)
+                isNumber = true;
+            else
+                isSymbol = true;
+        }
+    })
+
+    if(isUpper && isLower && isNumber && isLower && password.length>=8)
+        changeStrengthColor("#01f501");
+    else if(isLower && isUpper && isSymbol && password.length>=6)
+        changeStrengthColor("#ffe53d");
+    else    
+        changeStrengthColor("red");
+}
+
+function shufflePassword(password) {
+
     array = [...password];
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -48,14 +81,26 @@ function shufflePassword(password) {
     return array.join("");
 }
 
-
-// Event listener for the input element that changes the password length
-passwordLengthInput.addEventListener("input", (event) => {
-    displayPasswordLength.innerHTML = event.target.value;
-
+function updatePasswordLength(updatedValue) {
+    displayPasswordLength.innerHTML = updatedValue;
+    passwordLengthInput.value = updatedValue;
     // Update the background size of the input element based on the password length
-    passwordLengthInput.style.backgroundSize = (event.target.value / 20) * 100 + '%';
-})
+    passwordLengthInput.style.backgroundSize = (updatedValue / 20) * 100 + '%';
+}
+
+async function copyContent() {
+
+    try {
+        await navigator.clipboard.writeText(password);
+        copiedPassword.classList.add("active")
+        setTimeout(() => {
+            copiedPassword.classList.remove("active");
+        }, 1500)
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 
 for (let box of checkBox) {
 
@@ -71,20 +116,27 @@ for (let box of checkBox) {
 
         if (no <= checkedBoxes) {
             no = checkedBoxes;
-            displayPasswordLength.innerHTML = checkedBoxes;
-            passwordLengthInput.value = checkedBoxes;
-            // Update the background size of the input element based on the password length
-            passwordLengthInput.style.backgroundSize = (checkedBoxes / 20) * 100 + '%';
+            updatePasswordLength(checkedBoxes);
         }
     })
 }
 
+//Event listener for copying the content in clipBoard
+copyIcon.addEventListener("click", () => {
+    if (password)
+        copyContent();
+})
+
+// Event listener for the input element that changes the password length
+passwordLengthInput.addEventListener("input", (event) => {
+    updatePasswordLength(event.target.value);
+})
 
 // event listener to generate a password when the user clicks the button
 generatePasswordBtn.addEventListener('click', () => {
 
+    password = "";
     let count = 1;
-    let password = "";
     let no = parseInt(passwordLengthInput.value);
     let checkedBoxes = 0;
 
@@ -99,14 +151,11 @@ generatePasswordBtn.addEventListener('click', () => {
 
     if (no <= checkedBoxes) {
         no = checkedBoxes;
-        displayPasswordLength.innerHTML = checkedBoxes;
-        passwordLengthInput.value = checkedBoxes;
-        // Update the background size of the input element based on the password length
-        passwordLengthInput.style.backgroundSize = (checkedBoxes / 20) * 100 + '%';
+        updatePasswordLength(checkedBoxes);
     }
 
     // loop through each checkbox again and add a character of the corresponding type to the password if the checkbox is checked
-    checkBox.forEach((value,index) => {
+    checkBox.forEach((value, index) => {
         if (value.checked && index == 0) {
             password += upperCase();
         }
@@ -170,11 +219,10 @@ generatePasswordBtn.addEventListener('click', () => {
     password = shufflePassword(password);
 
     // display passoword on ui and some changes in design also
+    calcStrength();
     displayPassword.innerHTML = `${password}`;
     displayPassword.style.opacity = '1';
     displayPassword.style.userSelect = 'initial';
-    console.log("password generated", password);
-
 
 })
 
